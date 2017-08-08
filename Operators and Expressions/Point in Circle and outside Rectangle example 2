@@ -1,0 +1,11 @@
+
+ 	var pointX = 0,
+        pointY = 0,
+        circleX = 1,
+        circleY = 1,
+        circleRadius = 3;
+     var radiusP = Math.sqrt((Math.pow(pointX - circleX, 2) + Math.pow(pointY - circleY, 2)));
+     var withinK = radiusP <= circleRadius;
+     var outsideR = ((pointX < -1) || (pointX > 5)) || ((pointY < -1) || (pointY > 1));
+     var inKoutR = withinK && outsideR;
+     console.log("The point is within the circle K and outside the rectangle R is: " + inKoutR);
