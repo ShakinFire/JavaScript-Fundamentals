@@ -1,0 +1,32 @@
+var arr = ["5 1 7 6 5 6 4 2 3 8"];
+
+function solve(args){
+	var numbers = args[0].split(" ").map(Number),
+	i,
+	j = 1,
+	len = numbers.length;
+	result = 0,
+	currentSum = 0;
+
+	for(i = 0; i < len; i += 1){
+		if(numbers[i] > numbers[i - 1] && (numbers[i] > numbers[i + 1] || numbers[i + 1] === undefined)){
+			currentSum += numbers[i];
+			while(!((numbers[i - j] > numbers[i - j + 1] || numbers[i - j + 1] === undefined)&& (numbers[i - j] > numbers[i - j - 1] || numbers[i - j - 1] === undefined))){
+				currentSum += numbers[i - j];
+				j++;
+			}
+			currentSum += numbers[i - j];
+
+			if(currentSum > result){
+				result = currentSum;
+			}
+			currentSum = 0;
+			j = 1;
+		}
+	}
+
+	return console.log(result);
+}
+
+
+solve(arr);
