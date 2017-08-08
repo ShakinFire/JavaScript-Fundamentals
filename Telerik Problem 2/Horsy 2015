@@ -1,0 +1,57 @@
+function solve(args){
+	var rowsCols = args[0].split(' '),
+		rows = rowsCols[0] - 1,
+		cols = rowsCols[1] - 1,
+		matrix = args.slice(1).map(function(line){
+			return line.split("");
+		}),
+		i,
+		j,
+		row = rows,
+		col = cols,
+		positions = 0,
+		sum = 0,
+		iLen = matrix.length,
+		jLen = matrix[0]. length,
+		horse = [
+			{oRow: -2, oCol: +1},
+			{oRow: -1, oCol: +2},
+			{oRow: +1, oCol: +2},
+			{oRow: +2, oCol: +1},
+			{oRow: +2, oCol: -1},
+			{oRow: +1, oCol: -2},
+			{oRow: -1, oCol: -2},
+			{oRow: -2, oCol: -1}
+		];
+
+		for(i = 0; i < iLen; i += 1){
+			for(j = 0; j < jLen; j += 1){
+				matrix[i][j] = +matrix[i][j];
+			}
+		}
+
+		while(1){
+			if(row < 0 || row >= matrix.length ||
+				col < 0 || col >= matrix[row].length){
+				return console.log("Go go Horsy! Collected " + sum + " weeds");
+			}
+			if(matrix[rows][cols] === "used"){
+				return console.log("Sadly the horse is doomed in " + positions + " jumps");
+			}
+			sum += Math.pow(2, row) - cols;
+			rows += horse[matrix[row][col] - 1].oRow;
+			cols += horse[matrix[row][col] - 1].oCol;
+			matrix[row][col] = "used";
+			row = rows;
+			col = cols;
+			positions += 1;
+		}
+}
+
+var arr = [
+	"3 5",
+	"54561",
+	"43328",
+	"52388"
+]
+solve(arr);
