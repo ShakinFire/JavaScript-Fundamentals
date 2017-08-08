@@ -1,0 +1,35 @@
+// Write a function that finds all the occurrences of word in a text.
+// The search can be case sensitive or case insensitive.
+
+var text = "You are my friend and i like to hang out with you! Who are we to say what you want or like",
+	wordToCheck = "you",
+	holderArr = [],
+	i,
+	len = 0,
+	occurrence = 0;
+
+
+function occurrenceCheck (text, word, caseS){
+	caseS = caseS || false;
+
+	holderArr = text.split(/\b/);
+	len = holderArr.length;
+
+	if(caseS === false){
+		for(i = 0; i < len; i += 1){
+			if(holderArr[i].toLowerCase() === wordToCheck.toLowerCase()){
+				occurrence += 1;
+			}
+		}
+	} else {
+		for(i = 0; i < len; i += 1){
+			if(holderArr[i] === wordToCheck){
+				occurrence += 1;
+			}
+		}
+	}
+
+	return console.log(occurrence);
+}
+
+occurrenceCheck(text, wordToCheck, false);
