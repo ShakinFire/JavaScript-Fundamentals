@@ -1,0 +1,20 @@
+var biggest;
+
+function biggestOfThree(a, b, c) {
+	if(!isNaN(a) && !isNaN(b) && !isNaN(c)){
+		biggest = a;
+		if (b > biggest) {
+			biggest = b;
+		}
+
+		if (c > biggest) {
+			biggest = c;
+		}
+
+		console.log(biggest);
+	} else {
+		console.log("Invalid number");
+	}
+}
+
+biggestOfThree(5, 2, 1);
