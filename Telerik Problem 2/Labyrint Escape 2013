@@ -1,0 +1,56 @@
+function solve (args) {
+	var field = args[0].split(" ").map(Number),
+		rows = field[0],
+		cols = field[1],
+		startPosition = args[1].split(" ").map(Number),
+		matrix = args.slice(2).map(function(line){
+			return line.split("");
+		}),
+		currentRow = startPosition[0],
+		currentCol = startPosition[1],
+		holdRow = startPosition[0],
+		holdCol = startPosition[1],
+		dir = {
+			u: -1,
+			d: +1,
+			l: -1,
+			r: +1
+		},
+		sum = 0,
+		pos = 0;
+
+		while(1){
+
+			if(currentRow < 0 || currentRow >= rows ||
+				currentCol < 0 || currentCol >= cols){
+				return console.log("out " + sum);
+			}
+			if(matrix[currentRow][currentCol] === "used"){
+				return console.log("lost " + pos);
+			}
+			sum += (currentRow * cols) + currentCol + 1;
+
+			if(matrix[currentRow][currentCol] === "u" || matrix[currentRow][currentCol] === "d"){
+				currentRow += dir[matrix[currentRow][currentCol]];
+				matrix[holdRow][holdCol] = "used";
+			} else if(matrix[currentRow][currentCol] === "l" || matrix[currentRow][currentCol] === "r"){
+				currentCol += dir[matrix[currentRow][currentCol]];
+				matrix[holdRow][holdCol] = "used";
+			}
+			pos += 1;
+			holdRow = currentRow;
+			holdCol = currentCol;
+		}
+}
+
+var arr = [
+	"5 8",
+	"0 0",
+	"rrrrrrrd",
+ "rludulrd",
+ "lurlddud",
+ "urrrldud",
+ "ulllllll"
+]
+
+solve(arr);
