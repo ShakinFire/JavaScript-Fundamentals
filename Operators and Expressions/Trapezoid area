@@ -1,0 +1,8 @@
+var total;
+
+function trArea(a, b, h){
+	total = ((a+b)/2)*h;
+	return total;
+}
+
+console.log(trArea(2, 1, 33));
