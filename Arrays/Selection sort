@@ -1,0 +1,23 @@
+var arr = [4, 3, 5, 6, 2, 1, 11, 42, 533, 23, 6, 34, 12, 67],
+	i,
+	j,
+	len = arr.length,
+	indexHolder = 0,
+	minValue;
+	holderArr = [];
+
+for (i = 0; i < len; i += 1) {
+	minValue = arr[i];
+	indexHolder = i;
+	for (j = i; j < len; j += 1) {
+		if (arr[j] < minValue) {
+			minValue = arr[j];
+			indexHolder = j;
+		}
+	}
+	holderArr = arr.splice(indexHolder, 1);
+	arr.unshift(holderArr[0]);
+	holderArr = [];
+}
+arr.reverse();
+console.log(arr);
