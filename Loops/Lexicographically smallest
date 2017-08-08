@@ -1,0 +1,32 @@
+// Write a script that finds the lexicographically smallest 
+// and largest property in document, window and navigator objects.
+
+var prop,
+	propArr = [];
+
+for(prop in navigator){
+	propArr.push(prop);
+}
+
+var	i,
+	len = propArr.length,
+	min = propArr[0],
+	n,
+	max = propArr[0];
+
+
+for(i = 1; i < len; i += 1){
+	n = propArr[i].localeCompare(max);
+	if(n === 1){
+		max = propArr[i];
+	}
+}
+
+for(i = 1; i < len; i += 1){
+	n = propArr[i].localeCompare(min);
+	if(n === -1){
+		min = propArr[i];
+	}
+}
+
+console.log(max + " " + min);
