@@ -1,0 +1,64 @@
+function solve(args){
+	var field = args[0].split(" ").map(Number),
+		startPosition = args[1].split(" ").map(Number),
+		moves = args.slice(2).map(function(line){
+			return line.split(" ").map(Number);
+		}),
+		rows = field[0],
+		cols = field[1],
+		jump = field[2],
+		i,
+		j,
+		iMoves = moves.length,
+		jMoves = moves[0].length,
+		sum = 0,
+		totalJumps = 0,
+		matrix = [],
+		holdArr = [];
+
+		for(i = 0; i < rows; i += 1){
+			for(j = 0; j < cols; j += 1){
+				holdArr[j] = j + 1 + (i * cols);
+			}
+			matrix.push(holdArr);
+			holdArr = [];
+		}
+
+		rows = startPosition[0];
+		cols = startPosition[1];
+		
+		while(1){
+
+			for(i = 0; i < iMoves; i += 1){
+		
+				if(rows < 0 || rows >= field[0] ||
+					cols < 0 || cols >= field[1]){
+					return console.log("escaped " + sum);
+				}
+				if(matrix[rows][cols] === "used"){
+					return console.log("caught " + totalJumps);
+				}
+
+				sum += matrix[rows][cols];
+				matrix[rows][cols] = "used";
+				for(j = 0; j < jMoves; j += 1){
+					if(j === 0){
+						rows += moves[i][j];
+					} else {
+						cols += moves[i][j];
+					}
+				}
+				totalJumps += 1;
+			}
+		}
+}
+
+var arr = [
+"6 7 3",
+"0 0",
+"2 2",
+"-2 2",
+"3 -1"
+]
+
+solve(arr);
