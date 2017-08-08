@@ -1,0 +1,30 @@
+var arr = [1, 2, 3, 4, 5, 6, 1, 2, 3, 5, 7, 8, 9],
+	positionToCheck = arr.length - 1,
+	result = '';
+
+
+function largerThanNeighbours(arr, pos){
+	if(arr[pos - 1] !== undefined && arr[pos + 1] !== undefined){
+		if(arr[pos] > arr[pos - 1] && arr[pos] > arr[pos + 1]){
+			result += "The Element at this position is bigger than its two neighbours!";
+		} else {
+			result += "The Element at this position is NOT bigger than its two neighbours!";	
+		}
+	} else if(arr[pos - 1] === undefined && arr[pos + 1] !== undefined){
+		if(arr[pos] > arr[pos + 1]){
+			result += "The Element at this position is bigger than its two neighbours!";
+		} else {
+			result += "The Element at this position is NOT bigger than its two neighbours!";	
+		}
+	} else if(arr[pos + 1] === undefined && arr[pos - 1] !== undefined){
+		if(arr[pos] > arr[pos - 1]){
+			result += "The Element at this position is bigger than its two neighbours!";
+		} else {
+			result += "The Element at this position is NOT bigger than its two neighbours!";	
+		}
+	}
+
+	return console.log(result);
+}
+
+largerThanNeighbours(arr, positionToCheck);
