@@ -1,0 +1,24 @@
+var arr = [4, 4, 2, 1, 3, 3, 3],
+	i,
+	j,
+	answer,
+	len = arr.length,
+	holder,
+	flag = 0,
+	mostFrequent = 0;
+
+for(i = 0; i < len; i += 1){
+	holder = arr[i];
+	for(j = 0; j < len; j += 1){
+		if(holder === arr[j]){
+			mostFrequent += 1;
+		}
+	}
+	if(mostFrequent > flag){
+		flag = mostFrequent;
+		answer = holder + "(" + mostFrequent + "times)";
+	}
+	mostFrequent = 0;
+}
+
+console.log(answer);
