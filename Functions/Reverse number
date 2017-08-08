@@ -1,0 +1,15 @@
+var holdArr = [],
+	result = '';
+
+function reverse(num){
+	num = num.toString();
+	holdArr = num.split("");
+
+	holdArr.reverse();
+	result = holdArr.join("");
+	
+	return console.log(result);
+
+}
+
+reverse(25.5651);
