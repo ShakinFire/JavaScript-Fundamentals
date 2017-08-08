@@ -1,0 +1,14 @@
+function checkObj(obj, prop){
+	if(!obj[prop]){
+		return false;
+	} else {
+		return true;
+	}
+}
+
+var person = {
+	firstName: "gosho",
+	age: 20
+}
+
+console.log(checkObj(person, "age"));
