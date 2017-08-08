@@ -1,0 +1,29 @@
+// Write a function that groups an array of people by age, first or last name.
+
+var people = [
+	{firstName: "Georgi", lastName: "Enev", age: 25},
+	{firstName: "Pesho", lastName: "Ivanov", age: 43},
+	{firstName: "Dancho", lastName: "Genev", age: 14},
+	{firstName: "Ivan", lastName: "Penev", age: 17}
+],
+	len,
+	i,
+	arr = [],
+	holdObj = {};
+
+function groupPeople(obj, group){
+	len = obj.length;
+
+	for(i = 0; i < len; i += 1){
+		if(!obj[group]){
+			holdObj[group] = 0;
+		} 
+		arr.push(obj[i][group]);
+		
+	}
+
+	holdObj[group] = arr;
+	return holdObj;
+}
+
+console.log(groupPeople(people, "firstName"));
