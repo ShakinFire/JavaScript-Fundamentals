@@ -1,0 +1,23 @@
+var biggest;
+
+function biggestOfFive (a, b, c, d, e) {
+	biggest = a;
+	if (b > biggest) {
+		biggest = b;
+	}
+
+	if (c > biggest) {
+		biggest = c;
+	}
+
+	if (d > biggest) {
+		biggest = d;
+	}
+
+	if (e > biggest) {
+		biggest = e;
+	}
+	console.log(biggest);
+}
+
+biggestOfFive(-3, 0, 1, -2, 10);
