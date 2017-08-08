@@ -1,0 +1,18 @@
+var c;
+function isGreater (a, b) {
+	
+	if (!isNaN(a) && !isNaN(b)) {
+		if(a > b){
+			c = a;
+			a = b;
+			b = c;
+			console.log(a + " " + b);
+		} else {
+			console.log(a + " " + b);
+		}
+	} else{
+		console.log("Invalid number");
+	}
+}
+
+isGreater(5.5, 4.5);
