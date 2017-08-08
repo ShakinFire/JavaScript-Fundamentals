@@ -1,0 +1,23 @@
+var d,
+	x1,
+	x2;
+
+function quadraticEquation (a, b, c) {
+	if(!isNaN(a) && !isNaN(b) && !isNaN(c)){
+		d = (b*b) - (4 * a * c);
+		if (d > 0) {
+			x1 = (-b - Math.sqrt(d)) / (2 * a);
+			x2 = (-b + Math.sqrt(d)) / (2 * a);
+			console.log("x1 = " + x1 + "; x2 = " + x2);
+		} else if (d === 0) {
+			x1 = -(b / (2 * a));
+			console.log("x1 = x2 = " + x1);
+		} else if (d < 0) {
+			console.log("no real roots");
+		}
+	} else {
+		console.log("Invalid Number");
+	}
+}
+
+quadraticEquation(5, 2, 8);
