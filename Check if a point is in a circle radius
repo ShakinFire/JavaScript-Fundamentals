@@ -1,0 +1,17 @@
+//Check if a point is in a circle radius
+
+var radius = 5;
+var centerX = 0;
+var centerY = 0;
+
+function inCircle(pointX, pointY){
+	var point = Math.sqrt((pointX-centerX)*(pointX-centerX) + (pointY-centerY)*(pointY-centerY));
+	if(point <= radius){
+		console.log("true");
+	}
+	else{
+		console.log("false");
+	}
+}
+
+inCircle(-4, -3.5);
