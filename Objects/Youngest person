@@ -1,0 +1,28 @@
+// Write a function that finds the youngest person in
+// a given array of people and prints his/hers full name
+
+var people = [
+{firstName: "Georgi", lastName: "Enev", age: 25},
+{firstName: "Pesho", lastName: "Ivanov", age: 43},
+{firstName: "Dancho", lastName: "Genev", age: 14},
+{firstName: "Ivan", lastName: "Penev", age: 17}
+],
+	i,
+	len,
+	min = people[0].age,
+	youngest = people[0].firstName;
+
+
+function youngestPerson (obj){
+	len = obj.length;
+	for(i = 0; i < len; i += 1){
+		if(obj[i].age < min){
+			min = obj[i].age;
+			youngest = people[i].firstName;
+		} 
+	}
+
+	return console.log(youngest);
+}
+
+youngestPerson(people);
