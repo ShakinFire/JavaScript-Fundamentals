@@ -1,0 +1,18 @@
+// Attach it to the array type.
+
+var i,
+	len,
+	arr1 = [2, 4, 5, 5, 2, 1, 2, 2];
+
+Array.prototype.deleteElements = function (value){
+	len = this.length;
+	for(i = 0; i < len; i += 1){
+		if(this[i] === value){
+			this.splice(i, 1);
+			i -= 1;
+		}
+	}
+}
+
+arr1.deleteElements(5);
+console.log(arr1);
