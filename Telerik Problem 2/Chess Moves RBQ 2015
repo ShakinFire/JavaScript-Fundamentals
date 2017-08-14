@@ -1,0 +1,208 @@
+function solve(args){
+	var rows = +args[0],
+		cols = +args[1],
+		board = args.slice(2, 2 + rows).map(function(line){
+			return line.split('');
+		}),
+		totalMoves = +args.slice(2 + rows, 3 + rows),
+		moves = args.slice(3 + rows),
+		i;
+		
+		function moveDiagonaly(row, col, endRow, endCol){
+			debugger;
+			var p = 1;
+			if(row > endRow){
+				if(col > endCol){
+					while(1){
+						if(row - p >= rows || row - p < 0 ||
+							col - p >= cols || col - p < 0){
+							console.log("no");
+							break;
+						}
+						if(board[row - p][col - p] === "-"){
+							if((row - p) === endRow && (col - p) === endCol){
+								console.log("yes");
+								break;
+							}
+						} else {
+							console.log("no");
+							break;
+						}
+						p += 1;
+					}
+				} else {
+					while(1){
+						if(row - p >= rows || row - p < 0 ||
+							col + p >= cols || col + p < 0){
+							console.log("no");
+							break;
+						}
+						if(board[row - p][col + p] === "-"){
+							if((row - p) === endRow && (col + p) === endCol){
+								console.log("yes");
+								break;
+							}
+						} else{
+							console.log("no");
+							break;
+						}
+						p += 1;
+					}
+				}
+			} else {
+				if(col > endCol){
+					while(1){
+						if(row + p >= rows || row + p < 0 ||
+							col - p >= cols || col - p < 0){
+							console.log("no");
+							break;
+						}
+						if(board[row + p][col - p] === "-"){
+							if((row + p) === endRow && (col - p) === endCol){
+								console.log("yes");
+								break;
+							}
+						} else{
+							console.log("no");
+							break;
+						}
+						p += 1;
+					}
+				} else {
+					while(1){
+						if(row + p >= rows || row + p < 0 ||
+							col + p >= cols || col + p < 0){
+							console.log("no");
+							break;
+						}
+						if(board[row + p][col + p] === "-"){
+							if((row + p) === endRow && (col + p) === endCol){
+								console.log("yes");
+								break;
+							}
+						} else{
+							console.log("no");
+							break;
+						}
+						p += 1;
+					}
+				}
+			}
+
+			p = 1;
+		}
+
+		function moveStraight(row, col, endRow, endCol){
+			debugger;
+			var j = 1;
+			if(row === endRow){
+				if(col > endCol){
+					while(1){
+						if(board[row][col - j] === "-"){
+							if((col - j) === endCol){
+								console.log("yes");
+								break;
+							}
+						} else{
+							console.log("no");
+							break;
+						}
+						j += 1;
+					}
+				} else {
+					while(1){
+						if(board[row][col + j] === "-"){
+							if((col + j) === endCol){
+								console.log("yes");
+								break;
+							}
+						} else{
+							console.log("no");
+							break;
+						}
+						j += 1;
+					}
+				}
+			} else if(col === endCol){
+				if(row > endRow){
+					while(1){
+						if(board[row - j][col] === "-"){
+							if((row - j) === endRow){
+								console.log("yes");
+								break;
+							}
+						} else{
+							console.log("no");
+							break;
+						}
+						j += 1;
+					}
+				} else {
+					while(1){
+						if(board[row + j][col] === "-"){
+							if((row + j) === endRow){
+								console.log("yes");
+								break;
+							}
+						} else{
+							console.log("no");
+							break;
+						}
+						j += 1;
+					}
+				}
+			} else {
+				console.log("no");
+			}
+			j = 1;
+		}
+
+		function checkMove(startCol, startRow, endCol, endRow){
+			debugger;
+			var boardRow = rows - startRow,
+				boardCol = startCol.charCodeAt(0) - 97,
+				endBoardRow = rows - endRow,
+				endBoardCol = endCol.charCodeAt(0) - 97;
+			if(board[boardRow][boardCol] === "Q"){
+				if(boardRow === endBoardRow || boardCol === endBoardCol){
+					moveStraight(boardRow, boardCol, endBoardRow, endBoardCol);
+				} else {
+					moveDiagonaly(boardRow, boardCol, endBoardRow, endBoardCol);
+				}
+			} else if(board[boardRow][boardCol] === "B"){
+				moveDiagonaly(boardRow, boardCol, endBoardRow, endBoardCol);
+			} else if(board[boardRow][boardCol] === "R"){
+				moveStraight(boardRow, boardCol, endBoardRow, endBoardCol);
+			} else {
+				console.log("no");
+			}
+		}
+
+		for(i = 0; i < totalMoves; i += 1){
+			checkMove(moves[i][0], moves[i][1], moves[i][3], moves[i][4]);
+			debugger;
+		}
+}
+
+var arr = [
+"7",
+"8",
+"---Q----",
+"Q-------",
+"------R-",
+"--------",
+"-------R",
+"----B---",
+"-B------",
+"8",
+"d7 h6",
+"a6 b4",
+"g5 h7",
+"d7 g7",
+"h3 a4",
+"b1 a2",
+"b1 d4",
+"e2 h4"
+];
+
+solve(arr);
