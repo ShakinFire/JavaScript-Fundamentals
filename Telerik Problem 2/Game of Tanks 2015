@@ -1,0 +1,230 @@
+The problem is 80/100 (not fully correct)!
+
+function solve (args) {
+	var field = args[0].split(" ").map(Number),
+		rows = field[0],
+		cols = field[1],
+		debris = args[1].split(";").map(function(el){
+			return el.split(" ").map(Number);
+		}),
+		moves = args.slice(3).map(function(line){
+			return line.split(" ").map(function(el) {
+				if(!isNaN(el)){
+					return el = +el;
+				} else {
+					return el;
+				}
+			});
+		}),
+		movesLen = moves.length,
+		dir = {
+			u: -1,
+			d: +1,
+			l: -1,
+			r: +1
+		},
+		matrix = [],
+		holdArr = [],
+		i,
+		j,
+		p = 0,
+		debLen = debris.length,
+		cukiTanks = [
+			{id: 7,row: rows - 1,col: cols - 4},
+			{id: 6,row: rows - 1,col: cols - 3},
+			{id: 5,row: rows - 1,col: cols - 2},
+			{id: 4,row: rows - 1,col: cols - 1}
+		],
+		koceTanks = [
+			{id: 0,row: 0,col: 0},
+			{id: 1,row: 0,col: 1},
+			{id: 2,row: 0,col: 2},
+			{id: 3,row: 0,col: 3}
+		],
+		cukiLen = cukiTanks.length,
+		koceLen = koceTanks.length;
+
+	for(i = 0; i < rows; i += 1){ // build field (matrix)
+		for(j = 0; j < cols; j += 1){
+			holdArr[j] = "O";
+		}
+		matrix.push(holdArr);
+		holdArr = [];
+	}
+
+	for(i = 0; i < debLen; i += 1){ // set debris on the field
+		j = 0;
+		matrix[debris[i][j]][debris[i][j + 1]] = "X";
+	}
+
+	function setTanksOnTheMap (tanks) { // set tanks on the field
+		var currentLen = tanks.length;
+		for(i = 0; i < currentLen; i += 1){
+			matrix[tanks[i].row][tanks[i].col] = tanks[i].id;
+		}
+	}
+
+	setTanksOnTheMap(cukiTanks);
+	setTanksOnTheMap(koceTanks);
+
+	function move (arr) { // Make move with tanks on the field
+		if(arr[1] >= 4){ // check for cuki tanks
+			tankToMove(cukiTanks);
+		} else { // check for koce tanks
+			tankToMove(koceTanks);
+		}
+
+		function tankToMove(tanks){
+			var len = tanks.length;
+			for(i = 0; i < len; i += 1){
+				if(tanks[i].id === arr[1]){ // find the tank that we need to move
+					if(arr[3] === "l" || arr[3] === "r"){ // check if it have to move col or row
+						for(j = 0; j < arr[2]; j += 1){ // move the tank if all restrictions are passed
+							if(matrix[tanks[i].row][tanks[i].col + dir[arr[3]]] === "X"){ // check if the tank is in a debris
+								break;
+							}
+							if(tanks[i].col + dir[arr[3]] < 0 || tanks[i].col + dir[arr[3]] >= cols){ // check if the next turn go out of the field
+								break;
+							}
+							if(matrix[tanks[i].row][tanks[i].col + dir[arr[3]]] >= 0 && // check if the next turn is already taken from other tanks
+							   matrix[tanks[i].row][tanks[i].col + dir[arr[3]]] <= 7){
+								break;
+							}
+							matrix[tanks[i].row][tanks[i].col] = "O"; 					// set the previous position empty
+							tanks[i].col += dir[arr[3]]; 				  					// set the new position
+							matrix[tanks[i].row][tanks[i].col] = tanks[i].id; 
+						}
+					} else if (arr[3] === "u" || arr[3] === "d") {
+						for(j = 0; j < arr[2]; j += 1){ // move the tank if all restrictions are passed
+							if(matrix[tanks[i].row + dir[arr[3]]][tanks[i].col] === "X"){ // check if the tank is in a debris
+								break;
+							}
+							if(tanks[i].row + dir[arr[3]] < 0 || tanks[i].row + dir[arr[3]] >= rows){ // check if the next turn go out of the field
+								break;
+							}
+							if(matrix[tanks[i].row + dir[arr[3]]][tanks[i].col] >= 0 && // check if the next turn is already taken from other tanks
+							   matrix[tanks[i].row + dir[arr[3]]][tanks[i].col] <= 7){
+								break;
+							}
+							matrix[tanks[i].row][tanks[i].col] = "O"; 					// set the previous position empty
+							tanks[i].row += dir[arr[3]];									// set the new position
+							matrix[tanks[i].row][tanks[i].col] = tanks[i].id; 	// set the cell to its ID
+						}
+					}
+				}
+			}
+		}
+	}
+
+	function fire (arr){
+		var result = "";
+		if(arr[1] >= 4){
+			tankToFire(cukiTanks, koceTanks);
+		} else {
+			tankToFire(koceTanks, cukiTanks);
+		}
+
+		function tankToFire (tanks, alt) {
+			var bullet,
+				k,
+				index,
+				altLen = alt.length,
+				len = tanks.length;
+
+			for(i = 0; i < len; i += 1){
+				if(tanks[i].id === arr[1]){
+					if(arr[2] === "l" || arr[2] === "r"){
+						bullet = tanks[i].col;
+						while(1){
+							if(matrix[tanks[i].row][bullet] === "X"){
+								matrix[tanks[i].row][bullet] = "O";
+								break;
+							}
+							if(bullet + dir[arr[2]] < 0 || bullet + dir[arr[2]] >= cols){
+								break;
+							}
+							if(matrix[tanks[i].row][bullet + dir[arr[2]]] >= 0 &&
+							   matrix[tanks[i].row][bullet + dir[arr[2]]] <= 7){
+							   	for(k = 0; k < altLen; k += 1){
+							   		if(matrix[tanks[i].row][bullet + dir[arr[2]]] === alt[k].id){
+							   			alt.splice(k, 1);
+							   			break;
+							   		} 
+							   	}
+								result += "Tank " + matrix[tanks[i].row][bullet + dir[arr[2]]] + " is gg";
+								matrix[tanks[i].row][bullet + dir[arr[2]]] = "O";
+								break;
+							}
+
+							bullet += dir[arr[2]];
+
+						}	
+					} else if(arr[2] === "u" || arr[2] === "d"){
+						bullet = tanks[i].row;
+						while(1){
+
+							if(matrix[bullet][tanks[i].col] === "X"){
+								matrix[bullet][tanks[i].col] = "O";
+								break;
+							}
+							if(bullet + dir[arr[2]] < 0 || bullet + dir[arr[2]] >= rows){
+								break;
+							}
+							if(matrix[bullet + dir[arr[2]]][tanks[i].col] >= 0 &&
+							   matrix[bullet + dir[arr[2]]][tanks[i].col] <= 7){
+							   	for(k = 0; k < altLen; k += 1){
+							   		if(matrix[bullet + dir[arr[2]]][tanks[i].col] === alt[k].id){
+							   			alt.splice(index, 1);
+							   			break;
+							   		}
+							   	}
+								result += "Tank " + matrix[bullet + dir[arr[2]]][tanks[i].col] + " is gg";
+								matrix[bullet + dir[arr[2]]][tanks[i].col] = "O";
+								break;
+							}
+							
+
+							bullet += dir[arr[2]];
+						}	
+					}
+				}
+			}
+		}
+		if(!(result === "")){
+			return console.log(result);
+		}
+	}
+
+
+	while(p <= movesLen){
+		cukiLen = cukiTanks.length;
+		koceLen = koceTanks.length;
+		if(cukiLen === 0){
+			return console.log("Cuki is gg");
+		} else if (koceLen === 0){
+			return console.log("Koceto is gg");
+		}
+		if(moves[p][0] === "mv"){
+			move(moves[p]);
+		} else if (moves[p][0] === "x"){
+			fire(moves[p]);
+		}
+		p += 1;
+	}
+}
+
+var arr = [
+	'10 10',
+    '1 0;1 1;1 2;1 3;1 4;4 1;4 2;4 3;4 4',
+    '8',
+    'mv 4 9 u',
+    'x 4 l',
+    'x 4 l',
+    'x 4 l',
+    'x 0 r',
+    'mv 0 9 r',
+    'mv 5 1 r',
+    'x 5 u'
+];
+
+solve(arr);
