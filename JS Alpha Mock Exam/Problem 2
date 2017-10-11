@@ -1,0 +1,16 @@
+function solve (args){
+	var s = +args[0];
+	var i, j, k;
+	var count = 0;
+	debugger;
+	for(i = 0; i <= s / 7; i += 1){
+		for(j = 0; j <= s / 5; j += 1){
+			for(k = 0; k <= s / 2; k += 1){
+				if((i * 7 + j * 5 + k *2) === s){
+					count += 1;
+				}
+			}
+		}
+	}
+	console.log(count);
+}
