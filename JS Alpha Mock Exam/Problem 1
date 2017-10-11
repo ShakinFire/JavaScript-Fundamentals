@@ -1,0 +1,12 @@
+function solve(args){
+	var sum = 0;
+	var number;
+	args.forEach(function(line){
+		number = line.split("").map(Number);
+
+		if((number[0] + number[2]) === number[1]){
+			number = number.join('');
+			sum += +number;
+		}
+	});
+	console.log(sum);
